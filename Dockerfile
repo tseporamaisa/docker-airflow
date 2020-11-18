@@ -31,7 +31,8 @@ RUN set -ex \
         /var/tmp/* \
         /usr/share/man \
         /usr/share/doc \
-        /usr/share/doc-base
+        /usr/share/doc-base \
+    && apt-get purge --auto-remove git
 
 # Copy Config Files
 COPY script/entrypoint_wrapper.sh /entrypoint_wrapper.sh
