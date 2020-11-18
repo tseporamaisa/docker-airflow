@@ -20,7 +20,7 @@ RUN set -ex \
         $buildDeps \
     && pip install --upgrade pip \
     && pip install beautifulsoup4==4.9.3 \
-    && pip install --user --upgrade -e git+https://github.com/twintproject/twint.git@origin/master#egg=twint \
+    && python -m pip install --user --upgrade -e git+https://github.com/twintproject/twint.git@origin/master#egg=twint \
     # Cleanup
     && apt-get autoremove -yqq --purge \
     && apt-get clean \
