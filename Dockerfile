@@ -8,9 +8,30 @@ FROM apache/airflow:1.10.11
 
 USER root
 
-##Install packages
-RUN pip install beautifulsoup4==4.9.3 \
-    && pip install --user --upgrade -e git+https://github.com/twintproject/twint.git@origin/master#egg=twint
+##System upgrade
+RUN set -ex \
+    && buildDeps=' \
+        git \
+    ' \
+    # Upgrade packages
+    && apt-get update -yqq \
+    && apt-get upgrade -yqq \
+    && apt-get install -yqq --no-install-recommends \
+        $buildDeps \
+    && pip install --upgrade pip \
+    && pip install beautifulsoup4==4.9.3 \
+    && pip install --user --upgrade -e git+https://github.com/twintproject/twint.git@origin/master#egg=twint \
+    # Cleanup
+    && apt-get autoremove -yqq --purge \
+    && apt-get clean \
+    && rm -rf \
+        /var/lib/apt/lists/* \
+        /root/.cache/pip \
+        /tmp/* \
+        /var/tmp/* \
+        /usr/share/man \
+        /usr/share/doc \
+        /usr/share/doc-base
 
 # Copy Config Files
 COPY script/entrypoint_wrapper.sh /entrypoint_wrapper.sh
