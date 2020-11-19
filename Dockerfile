@@ -20,7 +20,6 @@ RUN set -ex \
         $buildDeps \
     && pip install --upgrade pip \
     && pip install beautifulsoup4==4.9.3 \
-    && python -m pip install --user --upgrade -e git+https://github.com/twintproject/twint.git@origin/master#egg=twint \
     # Cleanup
     && apt-get autoremove -yqq --purge \
     && apt-get clean \
@@ -38,7 +37,9 @@ COPY script/entrypoint_wrapper.sh /entrypoint_wrapper.sh
 COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 
 # Make airflow user owner
-RUN chown -R airflow: ${AIRFLOW_HOME}
+RUN chown -R airflow: ${AIRFLOW_HOME} \
+&& mkdir -p /usr/local/airflow \
+&& chown -R airflow: /usr/local/airflow
 
 EXPOSE 5555 8793
 
