@@ -37,11 +37,11 @@ COPY script/entrypoint_wrapper.sh /entrypoint_wrapper.sh
 COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 
 # Make airflow user owner
-#RUN chown -R airflow: ${AIRFLOW_HOME} \
-#&& mkdir -p /usr/local/airflow \
-#&& chown -R airflow: /usr/local/airflow
+RUN chown -R airflow: ${AIRFLOW_HOME} \
+&& mkdir -p /usr/local/airflow \
+&& chown -R airflow: /usr/local/airflow
 
 EXPOSE 5555 8793
 
-#USER airflow
+USER airflow
 ENTRYPOINT ["/entrypoint_wrapper.sh"]
