@@ -41,7 +41,8 @@ COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 RUN chown -R airflow: ${AIRFLOW_HOME} \
 && mkdir -p $HOME/data \
 # Add airflow user to sudoers group
-&& useradd -m airflow && echo "airflow:airflow" | chpasswd && adduser airflow sudo
+&& echo "airflow:airflow" | chpasswd \
+&& adduser airflow sudo
 
 
 EXPOSE 5555 8793
