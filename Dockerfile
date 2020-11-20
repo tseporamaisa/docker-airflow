@@ -42,6 +42,8 @@ RUN chown -R airflow: ${AIRFLOW_HOME} \
 && chown -R airflow $HOME/data \
 && chmod 2777 -R $HOME/data
 
+VOLUME ["$HOME/data"]
+
 EXPOSE 5555 8793
 
 USER airflow
