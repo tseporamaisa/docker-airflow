@@ -39,7 +39,8 @@ COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 # Make airflow user owner
 RUN chown -R airflow: ${AIRFLOW_HOME} \
 && mkdir -p $HOME/data \
-&& chmod -R a+rw $HOME/data
+&& chown -R airflow $HOME/data \
+&& chmod 2777 -R $HOME/data
 
 EXPOSE 5555 8793
 
