@@ -18,6 +18,7 @@ RUN set -ex \
     && apt-get upgrade -yqq \
     && apt-get install -yqq --no-install-recommends \
         $buildDeps \
+    && apt-get install -yqq sudo \
     && pip install --upgrade pip \
     && pip install beautifulsoup4==4.9.3 \
     # Cleanup
@@ -39,8 +40,8 @@ COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 # Make airflow user owner
 RUN chown -R airflow: ${AIRFLOW_HOME} \
 && mkdir -p $HOME/data \
-&& chown -R airflow:airflow $HOME/data \
-&& chmod a+wr -R $HOME/data
+# Add airflow user to sudoers group
+&& useradd -m airflow && echo "airflow:airflow" | chpasswd && adduser airflow sudo
 
 
 EXPOSE 5555 8793
